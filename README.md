@@ -3,6 +3,10 @@ Arcana Vim
 
 ## To Install
 
+#### One-Command
+Run: `curl -s http://github.com/arkokoley/arcana-vim/blob/master/installer.sh | sh`
+
+#### Longer-way
 1. Clone this repository: `git clone http://github.com/arkokoley/arcana-vim`
 2. `cd arcana-vim`
 3. Run the bootstrap script: `./bootstrap.sh`
