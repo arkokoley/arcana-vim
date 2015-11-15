@@ -1,6 +1,10 @@
 Arcana Vim
 ========
 
+A Sassy configuration for Vim.  
+  
+  
+![Screenshot](https://raw.githubusercontent.com/arkokoley/arcana-vim/master/screenshot.png)
 ## To Install
 
 #### One-Command
