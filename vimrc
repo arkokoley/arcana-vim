@@ -27,10 +27,12 @@ Plugin 'ryanss/vim-hackernews'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'sickill/vim-monokai'
 Plugin 'tomasr/molokai'
-Plugin 'xolox/vim-notes'
-Plugin 'xolox/vim-misc'
 Plugin 'majutsushi/tagbar'
-Bundle 'Shougo/neocomplete.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'rip-rip/clang_complete'
+Plugin 'vimwiki/vimwiki'
 Bundle 'Shougo/vimproc.vim'
 Bundle 'Shougo/vimshell.vim'
 " Github repos of the user 'vim-scripts'
@@ -43,7 +45,7 @@ call vundle#end()
 
 syntax on
 set background=dark
-color molokai
+color gotham256
 " Line endings should be Unix-style unless the file is from someone else.
 set fileformat=unix
 au BufNewFile * set fileformat=unix
@@ -70,7 +72,9 @@ set ignorecase " case-insensitive search
 set incsearch " search as you type
 set list " show trailing whitespace
 set listchars=tab:▸\ ,trail:▫
-set number " show line numbers
+" show line numbers
+set relativenumber 
+set number 
 
 nnoremap / /\v
 vnoremap / /\v
@@ -96,7 +100,7 @@ let g:syntastic_check_on_wq = 0
 "Airline take off
 set laststatus=2
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'luna'
+let g:airline_theme = 'gotham256'
 let g:airline#extensions#tabline#enabled = 1
 " Rainbow Parenthesis colors
 let g:rbpt_colorpairs = [
@@ -153,8 +157,9 @@ map  <C-w> :close<CR>
 nnoremap ; :
 inoremap jk <Esc>
 nnoremap ! :!
-nnoremap w :w<CR>
+nnoremap zs :w<CR>
 nnoremap zz :wq<CR>
+nnoremap zq :q<CR>
 
 nnoremap  <C-s> :vsp<CR>
 nnoremap  <leader>l :wincmd l<CR>
@@ -189,70 +194,25 @@ func! WordProcessorMode()
 endfu
 com! WP call WordProcessorMode()
 
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
 
-" NeoComplete settings
-  let g:acp_enableAtStartup = 0
-  " Use neocomplete.
-  let g:neocomplete#enable_at_startup = 1
-  " Use smartcase.
-  let g:neocomplete#enable_smart_case = 1
-  " Set minimum syntax keyword length.
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
 
-  " Define dictionary.
-  let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : '',
-      \ 'vimshell' : $HOME.'/.vimshell_hist',
-      \ 'scheme' : $HOME.'/.gosh_completions'
-          \ }
-
-  " Define keyword.
-  if !exists('g:neocomplete#keyword_patterns')
-      let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-  " Plugin key-mappings.
-  inoremap <expr><C-g>     neocomplete#undo_completion()
-  inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
-  endfunction
-  " <TAB>: completion.
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  " <C-h>, <BS>: close popup and delete backword char.
-  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-  " Close popup by <Space>.
-  inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-  " AutoComplPop like behavior.
-  "let g:neocomplete#enable_auto_select = 1
-
-  " Shell like behavior(not recommended).
-  "set completeopt+=longest
-  "let g:neocomplete#enable_auto_select = 1
-  "let g:neocomplete#disable_auto_complete = 1
-  "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-  " Enable omni completion.
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-  " Enable heavy omni completion.
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
 " These lines setup the environment to show graphics and colors correctly.
 set t_Co=256
 
@@ -267,6 +227,12 @@ if ! has('gui_running')
             au InsertLeave * set timeoutlen=1000
          augroup END
 endif
+
+" vimwiki settings
+let g:vimwiki_global_ext = 1
+let g:vimwiki_hl_headers = 1
+let g:vimwiki_hl_cb_checked = 1
+
 " Use local vimrc if available {
   if filereadable(expand("~/.vimrc.local"))
       source ~/.vimrc.local
