@@ -1,58 +1,8 @@
-set rtp+=$HOME/.vim/bundle/Vundle.vim
-call vundle#rc()
-call vundle#begin()
+set nocompatible
 
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/Vundle.vim'
+source $HOME/.arcana-vim/plugins.vim
 
-" Filesystem sidebar
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kien/ctrlp.vim' " Ctrl+P file search and open
-
-" Git plugins
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-fugitive'
-
-" Syntax helpers
-Plugin 'spf13/vim-autoclose' " Autoclose brackets
-Plugin 'scrooloose/syntastic' " Syntax checker
-Plugin 'bling/vim-airline' " System bar
-Plugin 'vim-airline/vim-airline-themes' " System bar themes
-Plugin 'terryma/vim-multiple-cursors' " MultiCursor edit
-Plugin 'scrooloose/nerdcommenter' " Quick commenting and uncommenting
-Plugin 'kien/rainbow_parentheses.vim' " Color brackets for right brace matching
-Plugin 'rstacruz/sparkup' " HTML Expansion
-Plugin 'tpope/vim-surround' " Quick Surround manager
-Plugin 'majutsushi/tagbar' " Class and variable Name -> ,t
-Plugin 'rust-lang/rust.vim' " Support for Rust
-" Themes
-Plugin 'sickill/vim-monokai'
-Plugin 'tomasr/molokai'
-Bundle 'zenorocha/dracula-theme'
-Plugin 'whatyouhide/vim-gotham'
-Plugin 'jdkanani/vim-material-theme'
-
-" AutoComplete and snippets
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'rip-rip/clang_complete'
-
-
-" For Terminal
-Bundle 'Shougo/vimproc.vim'
-Bundle 'Shougo/vimshell.vim'
-
-" Misc Tools
-Plugin 'vimwiki/vimwiki' " Keep wiki like notes
-Plugin 'ryanss/vim-hackernews' " Read HN in Vim
-Plugin 'rhysd/nyaovim-popup-tooltip'
-Plugin 'rhysd/nyaovim-tree-view'
-
-call vundle#end()
-"" General Settings
+" General Settings
 
 " These lines setup the environment to show graphics and colors correctly.
 set t_Co=256
@@ -64,9 +14,6 @@ color molokai
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 au BufNewFile,BufRead *.rs set filetype=rust
-" Automatically indent when adding a curly bracket, etc.
-" required! by vundle
-filetype plugin indent on
 
 " Tabs converted to 2 spaces
 set shiftwidth=2
@@ -84,13 +31,49 @@ set directory-=. " don't store swapfiles in the current directory
 set encoding=utf-8
 set ignorecase " case-insensitive search
 set incsearch " search as you type
-set list " show trailing whitespace
-set listchars=tab:▸\ ,trail:▫
-" show line numbers
+" Highlight tabs and trailing spaces
+set list                    " Make whitespace characters visible
+set listchars=tab:▸\ ,trail:•
+" Show line numbers
 set relativenumber
 set number
-" Enable mouse support
-set mouse=a
+
+set nohidden                    " Don't allow buffers to exist in the background
+set ttyfast                     " Indicates a fast terminal connection
+set shortmess+=I                " No welcome screen
+set shortmess+=A                " No .swp warning
+set history=200                 " Remember the last 200 :ex commands
+
+set mouse=a                 " Enable mouse support
+set wildmenu                " Command completion
+set wildmode=list:longest   " List all matches and complete till longest common string
+
+" My command line autocomplete is case insensitive. Keep vim consistent with
+" that. It's a recent feature to vim, test to make sure it's supported first.
+if exists("&wildignorecase")
+    set wildignorecase
+endi
+
+" Buffer Area Visuals
+set scrolloff=7             " Minimal number of screen lines to keep above and below the cursor.
+set visualbell              " Use a visual bell, don't beep!
+set cursorline              " Highlight the current line
+set wrap                    " Soft wrap at the window width
+set linebreak               " Break the line on words
+set textwidth=79            " Break lines at just under 80 characters
+
+" show fold column, fold by markers
+set foldcolumn=0            " Don't show the folding gutter/column
+set foldmethod=marker       " Fold on {{{ }}}
+set foldlevelstart=20       " Open 20 levels of folding when I open a file
+
+" Open folds under the following conditions
+set foldopen=block,hor,mark,percent,quickfix,search,tag,undo,jump
+
+
+" Splits
+set splitbelow              " Open new splits below
+set splitright              " Open new vertical splits to the right
 
 nnoremap / /\v
 vnoremap / /\v

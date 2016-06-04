@@ -1,4 +1,5 @@
-sudo apt-get install git vim vim-gnome cmake exuberant-ctags
+sudo apt-get install git vim vim-gnome cmake exuberant-ctags\
+  vim-gtk python-dev build-essential
 
 echo "#### Installing Special Fonts ####"
 git clone https://github.com/Lokaltog/powerline-fonts --depth=1
@@ -13,14 +14,13 @@ git clone https://github.com/gmarik/Vundle.vim $HOME/.vim/bundle/Vundle.vim
 
 echo "#### Settting up Arcana ####"
 [[ -f $HOME/.vimrc ]] && mv $HOME/.vimrc $HOME/.vimrc-old
-cp vimrc $HOME/.arcana-vim/vimrc
+mkdir $HOME/.arcana-vim/
+cp * $HOME/.arcana-vim/.
 ln -s $HOME/.arcana-vim/vimrc $HOME/.vimrc
 
 echo "#### Settting up dependencies ####"
-vim +PluginInstall
+vim +PlugInstall +qall
 
-cd $HOME/.vim/bundle/vimproc.vim/
-make
 cd $PWD
 
 echo "#### Done! ####"
