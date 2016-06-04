@@ -3,53 +3,67 @@ call vundle#rc()
 call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/Vundle.vim'
 
-" My Bundles here:
-"
-" original repos on github
+" Filesystem sidebar
 Plugin 'scrooloose/nerdtree'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'spf13/vim-autoclose'
-Plugin 'scrooloose/syntastic'
-Plugin 'bling/vim-airline'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'rstacruz/sparkup'
-Plugin 'tpope/vim-surround'
-Bundle 'zenorocha/dracula-theme'
-Plugin 'whatyouhide/vim-gotham'
-Plugin 'ryanss/vim-hackernews'
 Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim' " Ctrl+P file search and open
+
+" Git plugins
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive'
+
+" Syntax helpers
+Plugin 'spf13/vim-autoclose' " Autoclose brackets
+Plugin 'scrooloose/syntastic' " Syntax checker
+Plugin 'bling/vim-airline' " System bar
+Plugin 'vim-airline/vim-airline-themes' " System bar themes
+Plugin 'terryma/vim-multiple-cursors' " MultiCursor edit
+Plugin 'scrooloose/nerdcommenter' " Quick commenting and uncommenting
+Plugin 'kien/rainbow_parentheses.vim' " Color brackets for right brace matching
+Plugin 'rstacruz/sparkup' " HTML Expansion
+Plugin 'tpope/vim-surround' " Quick Surround manager
+Plugin 'majutsushi/tagbar' " Class and variable Name -> ,t
+Plugin 'rust-lang/rust.vim' " Support for Rust
+" Themes
 Plugin 'sickill/vim-monokai'
 Plugin 'tomasr/molokai'
-Plugin 'majutsushi/tagbar'
+Bundle 'zenorocha/dracula-theme'
+Plugin 'whatyouhide/vim-gotham'
+Plugin 'jdkanani/vim-material-theme'
+
+" AutoComplete and snippets
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'rip-rip/clang_complete'
-Plugin 'vimwiki/vimwiki'
+
+
+" For Terminal
 Bundle 'Shougo/vimproc.vim'
 Bundle 'Shougo/vimshell.vim'
-" Github repos of the user 'vim-scripts'
-" => can omit the username part
 
-" non github repos
-" ...
+" Misc Tools
+Plugin 'vimwiki/vimwiki' " Keep wiki like notes
+Plugin 'ryanss/vim-hackernews' " Read HN in Vim
+Plugin 'rhysd/nyaovim-popup-tooltip'
+Plugin 'rhysd/nyaovim-tree-view'
+
 call vundle#end()
 "" General Settings
 
+" These lines setup the environment to show graphics and colors correctly.
+set t_Co=256
+
 syntax on
 set background=dark
-color gotham256
+color molokai
 " Line endings should be Unix-style unless the file is from someone else.
 set fileformat=unix
 au BufNewFile * set fileformat=unix
-
+au BufNewFile,BufRead *.rs set filetype=rust
 " Automatically indent when adding a curly bracket, etc.
 " required! by vundle
 filetype plugin indent on
@@ -73,8 +87,10 @@ set incsearch " search as you type
 set list " show trailing whitespace
 set listchars=tab:▸\ ,trail:▫
 " show line numbers
-set relativenumber 
-set number 
+set relativenumber
+set number
+" Enable mouse support
+set mouse=a
 
 nnoremap / /\v
 vnoremap / /\v
@@ -195,7 +211,7 @@ endfu
 com! WP call WordProcessorMode()
 
 function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
+   call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
         if pumvisible()
             return "\<C-n>"
@@ -213,10 +229,10 @@ au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:U
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
 
-" These lines setup the environment to show graphics and colors correctly.
-set t_Co=256
-
 let g:minBufExplForceSyntaxEnable = 1
+
+" CTRL-P loader #skip .gitignore files
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 set guifont=Inconsolata\ for\ Powerline\ 12
 if ! has('gui_running')
