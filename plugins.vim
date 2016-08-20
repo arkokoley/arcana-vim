@@ -48,6 +48,7 @@ Plug 'Shougo/vimshell.vim' | Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " Misc Tools
 Plug 'vimwiki/vimwiki' " Keep wiki like notes
 Plug 'ryanss/vim-hackernews' " Read HN in Vim
+Plug 'mhinz/vim-startify' " Vim Startify
 
 filetype plugin indent on
 call plug#end()

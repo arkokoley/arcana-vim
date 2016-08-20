@@ -1,6 +1,6 @@
 set nocompatible
 
-source $HOME/.arcana-vim/plugins.vim
+source $HOME/arcana-vim/plugins.vim
 
 " General Settings
 
@@ -88,6 +88,9 @@ vnoremap <tab> %
 
 "C compiler
 let g:syntastic_c_check_header = 1
+let g:clang_complete_auto = 1
+let g:clang_use_library = 1
+let g:clang_library_path = '/usr/lib/llvm-3.5/lib/libclang.so.1'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -211,7 +214,7 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
-
+let g:UltiSnipsExpandTrigger="<c-j>"
 let g:minBufExplForceSyntaxEnable = 1
 
 " CTRL-P loader #skip .gitignore files

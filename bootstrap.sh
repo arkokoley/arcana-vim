@@ -8,9 +8,11 @@ sh install.sh
 cd .. && rm powerline-fonts -r -f
 
 echo "#### Cloning plugin Manager for Arcana-vim ####"
-[[ -f $HOME/.vim/bundle/ ]] && mkdir $HOME/.vim/bundle
-[[ -f $HOME/.vim/bundle/Vundle.vim ]] && rm Vundle.vim -r
-git clone https://github.com/gmarik/Vundle.vim $HOME/.vim/bundle/Vundle.vim
+url -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 echo "#### Settting up Arcana ####"
 [[ -f $HOME/.vimrc ]] && mv $HOME/.vimrc $HOME/.vimrc-old
