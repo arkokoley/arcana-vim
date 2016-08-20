@@ -1,6 +1,6 @@
 set nocompatible
 
-source $HOME/arcana-vim/plugins.vim
+source $HOME/.arcana-vim/plugins.vim
 
 " General Settings
 
