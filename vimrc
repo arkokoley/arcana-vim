@@ -8,12 +8,13 @@ source $HOME/.arcana-vim/plugins.vim
 set t_Co=256
 
 syntax on
-set background=dark
-color molokai
+"set background=dark
+colorscheme molokai
 " Line endings should be Unix-style unless the file is from someone else.
 set fileformat=unix
 au BufNewFile * set fileformat=unix
 au BufNewFile,BufRead *.rs set filetype=rust
+au VimEnter * set term=$TERM
 
 " Tabs converted to 2 spaces
 set shiftwidth=2
@@ -91,6 +92,7 @@ let g:syntastic_c_check_header = 1
 let g:clang_complete_auto = 1
 let g:clang_use_library = 1
 let g:clang_library_path = '/usr/lib/llvm-3.5/lib/libclang.so.1'
+let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -125,6 +127,8 @@ let g:rbpt_colorpairs = [
     \ ]
 
 let g:rbpt_max = 16
+
+let g:gitgutter_sign_removed_first_line = "^_"
 
 let g:rbpt_loadcmd_toggle = 0
 au VimEnter * RainbowParenthesesToggle
@@ -234,7 +238,10 @@ endif
 let g:vimwiki_global_ext = 1
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
-
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+let g:vimwiki_list = [
+  \{'path': '~/notes/'},
+\]
 " Use local vimrc if available {
   if filereadable(expand("~/.vimrc.local"))
       source ~/.vimrc.local
