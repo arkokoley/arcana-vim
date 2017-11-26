@@ -88,7 +88,6 @@ nnoremap <tab> %
 vnoremap <tab> %
 
 "C compiler
-let g:syntastic_c_check_header = 1
 let g:clang_complete_auto = 1
 let g:clang_use_library = 1
 let g:clang_library_path = '/usr/lib/llvm-3.5/lib/libclang.so.1'
@@ -98,13 +97,15 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_c_check_header = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_tex_checkers = ['lacheck', 'text/language_check']
 "Airline take off
 set laststatus=2
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'gotham256'
+let g:airline_theme = 'molokai'
 let g:airline#extensions#tabline#enabled = 1
 " Rainbow Parenthesis colors
 let g:rbpt_colorpairs = [
@@ -220,6 +221,13 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:minBufExplForceSyntaxEnable = 1
+
+let g:polyglot_disabled = ['latex']
+
+if !exists('g:ycm_semantic_triggers')
+  let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 
 " CTRL-P loader #skip .gitignore files
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']

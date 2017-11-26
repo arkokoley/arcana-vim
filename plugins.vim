@@ -10,6 +10,13 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
 " Filesystem sidebar
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeToggle' }
 Plug 'kien/ctrlp.vim' " Ctrl+P file search and open
@@ -20,7 +27,7 @@ Plug 'airblade/vim-gitgutter'
 " Syntax helpers
 Plug 'spf13/vim-autoclose' " Autoclose brackets
 
-Plug 'scrooloose/syntastic',{ 'for': ['php', 'python', 'javascript', 'css', 'cpp', 'rust'] } " Syntax checker
+Plug 'scrooloose/syntastic' " Syntax checker
 Plug 'bling/vim-airline' " System bar
 Plug 'terryma/vim-multiple-cursors' " MultiCursor edit
 Plug 'scrooloose/nerdcommenter' " Quick commenting and uncommenting
@@ -28,6 +35,7 @@ Plug 'kien/rainbow_parentheses.vim' " Color brackets for right brace matching
 Plug 'tpope/vim-surround' " Quick Surround manager
 Plug 'majutsushi/tagbar' " Class and variable Name -> ,t
 Plug 'sheerun/vim-polyglot'
+Plug 'lervag/vimtex'
 
 " Themes
 Plug 'tomasr/molokai'
@@ -35,7 +43,7 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'ayu-theme/ayu-vim' 
 
 " AutoComplete and snippets
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'rust', 'javascript'], 'do': './install.py --clang-completer --tern-completer --racer-completer' } 
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer --racer-completer' } 
 autocmd! User YouCompleteMe if !has('vim_starting') | call youcompleteme#Enable() | endif
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
